@@ -10,5 +10,14 @@ module.exports = (sequelize, DataTypes) => {
     { underscored: true }
   );
 
+  Type.associate = (db) => {
+    Type.hasMany(db.Post, {
+      foreignKey: {
+        name: 'typeId',
+        allowNull: false
+      }
+    });
+  };
+
   return Type;
 };

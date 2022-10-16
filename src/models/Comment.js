@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     'Comment',
     {
       content: {
-        type: DataTypes.STRING(300),
+        type: DataTypes.STRING,
         allowNull: false
       },
       imageUrl: {
@@ -12,6 +12,24 @@ module.exports = (sequelize, DataTypes) => {
     },
     { underscored: true }
   );
+
+  Comment.associate = (db) => {
+    Comment.belongsTo(db.User, {
+      foreignKey: {
+        name: 'userId',
+        allowNull: false
+      }
+    });
+
+    Comment.belongsTo(db.Post, {
+      foreignKey: {
+        name: 'postId',
+        allowNull: false
+      }
+    });
+
+    // Comment.belongsTo;
+  };
 
   return Comment;
 };

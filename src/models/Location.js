@@ -16,5 +16,14 @@ module.exports = (sequelize, DataTypes) => {
     { underscored: true }
   );
 
+  Location.associate = (db) => {
+    Location.hasMany(db.Post, {
+      foreignKey: {
+        name: 'locationId',
+        allowNull: false
+      }
+    });
+  };
+
   return Location;
 };

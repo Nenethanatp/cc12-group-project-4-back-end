@@ -1,3 +1,5 @@
+const Post = require('./Post');
+
 module.exports = (sequelize, DataTypes) => {
   const PostImage = sequelize.define(
     'PostImage',
@@ -9,4 +11,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     { underscored: true }
   );
+
+  PostImage.associate = (db) => {
+    PostImage.belongsTo(db.Post, {
+      foreignKey: {
+        name: 'postId',
+        allowNull: false
+      }
+    });
+  };
+
+  return PostImage;
 };

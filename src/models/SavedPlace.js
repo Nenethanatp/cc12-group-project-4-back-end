@@ -18,5 +18,14 @@ module.exports = (sequelize, DataTypes) => {
     { underscored: true }
   );
 
+  SavedPlace.associate = (db) => {
+    SavedPlace.belongsTo(db.User, {
+      foreignKey: {
+        name: 'userId',
+        allowNull: false
+      }
+    });
+  };
+
   return SavedPlace;
 };

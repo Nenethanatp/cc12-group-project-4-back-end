@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     'User',
     {
       username: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING,
         allowNull: false
       },
       firstName: {
@@ -32,6 +32,37 @@ module.exports = (sequelize, DataTypes) => {
     },
     { underscored: true }
   );
+
+  User.associate = (db) => {
+    User.hasMany(db.Post, {
+      //   as: 'selfcomment',
+      foreignKey: {
+        name: 'userId',
+        allowNull: false
+      }
+    });
+
+    User.hasMany(db.SavedPlace, {
+      foreignKey: {
+        name: 'userId',
+        allowNull: false
+      }
+    });
+
+    User.hasMany(db.Comment, {
+      foreignKey: {
+        name: 'userId',
+        allowNull: false
+      }
+    });
+
+    User.hasMany(db.Like, {
+      foreignKey: {
+        name: 'userId',
+        allowNull: false
+      }
+    });
+  };
 
   return User;
 };
