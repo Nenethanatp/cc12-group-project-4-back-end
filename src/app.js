@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 
+// const { sequelize } = require('./models');
+// sequelize.sync({ force: true });
 const notFound = require('./middlewares/notFound');
 const error = require('./middlewares/error');
 

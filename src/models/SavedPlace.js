@@ -1,18 +1,27 @@
 module.exports = (sequelize, DataTypes) => {
   const SavedPlace = sequelize.define(
-    'SavePlace',
+    'SavedPlace',
     {
       name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       latitude: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       longitude: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       }
     },
     { underscored: true }

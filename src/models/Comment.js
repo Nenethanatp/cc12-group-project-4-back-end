@@ -28,7 +28,16 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
 
-    // Comment.belongsTo;
+    Comment.hasMany(db.Comment, {
+      foreignKey: {
+        name: 'commentId'
+      }
+    });
+    Comment.belongsTo(db.Comment, {
+      foreignKey: {
+        name: 'commentId'
+      }
+    });
   };
 
   return Comment;

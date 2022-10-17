@@ -2,28 +2,35 @@ module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User',
     {
-      username: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
       firstName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       lastName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
-      image_url: {
+      imageUrl: {
         type: DataTypes.STRING
       },
-      emailOrMobile: {
+      email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          isEmail: true
+        }
       },
       password: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.STRING
+      },
+      googleId: {
+        type: DataTypes.STRING
       },
       role: {
         type: DataTypes.ENUM('user', 'admin'),
@@ -35,7 +42,6 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = (db) => {
     User.hasMany(db.Post, {
-      //   as: 'selfcomment',
       foreignKey: {
         name: 'userId',
         allowNull: false
@@ -57,6 +63,13 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     User.hasMany(db.Like, {
+      foreignKey: {
+        name: 'userId',
+        allowNull: false
+      }
+    });
+
+    User.hasMany(db.Payment, {
       foreignKey: {
         name: 'userId',
         allowNull: false
