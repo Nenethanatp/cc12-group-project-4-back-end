@@ -3,8 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     'Comment',
     {
       content: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.STRING
       },
       imageUrl: {
         type: DataTypes.STRING
@@ -28,7 +27,16 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
 
-    // Comment.belongsTo;
+    Comment.hasMany(db.Comment, {
+      foreignKey: {
+        name: 'commentId'
+      }
+    });
+    Comment.belongsTo(db.Comment, {
+      foreignKey: {
+        name: 'commentId'
+      }
+    });
   };
 
   return Comment;
