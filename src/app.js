@@ -15,6 +15,8 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use('/auth', authRoute);
+
 app.use(notFound);
 app.use(error);
 
