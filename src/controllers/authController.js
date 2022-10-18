@@ -17,7 +17,9 @@ exports.register = async (req, res, next) => {
     const schema = Joi.object({
       firstName: Joi.string().required(),
       lastName: Joi.string().required(),
-      email: Joi.string().email({ tlds: { allow: ['com', 'net'] } }),
+      email: Joi.string()
+        .email({ tlds: { allow: ['com', 'net'] } })
+        .required(),
       password: Joi.string().required(),
       confirmPassword: Joi.ref('password'),
     }).with('password', 'confirmPassword');
@@ -31,7 +33,7 @@ exports.register = async (req, res, next) => {
     });
 
     if (error) {
-      throw new AppError(error);
+      throw new AppError(error, 400);
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -43,6 +45,35 @@ exports.register = async (req, res, next) => {
     });
     const token = genToken({ id: user.id });
     res.status(201).json({ token });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const schema = Joi.object({
+      email: Joi.string()
+        .email({ tlds: { allow: ['com', 'net'] } })
+        .required(),
+      password: Joi.string().required()
+    });
+    const { error } = schema.validate({
+      email,
+      password
+    });
+    if (error) {
+      throw new AppError(error, 400);
+    }
+    const user = await authService.getUserByEmail(email);
+    const isCorrect = await bcrypt.compare(password, user.password);
+    if (!isCorrect) {
+      throw new AppError('email address or password is invalid', 400);
+    }
+
+    const token = genToken({ id: user.id });
+    res.status(200).json({ token });
   } catch (err) {
     next(err);
   }
