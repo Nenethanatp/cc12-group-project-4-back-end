@@ -1,5 +1,3 @@
-const Post = require('./Post');
-
 module.exports = (sequelize, DataTypes) => {
   const PostImage = sequelize.define(
     'PostImage',
