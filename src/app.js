@@ -3,13 +3,22 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 
+<<<<<<< HEAD
 const authRoute = require('./routes/authRoute');
+=======
+// const { sequelize } = require('./models');
+// sequelize.sync({force: true});
+
+>>>>>>> develop
 const notFound = require('./middlewares/notFound');
 const error = require('./middlewares/error');
 
 const app = express();
 
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
