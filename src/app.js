@@ -7,6 +7,7 @@ const morgan = require('morgan');
 // sequelize.sync({force: true});
 
 const authRoute = require('./routes/authRoute');
+const postRoute = require('./routes/postRoute')
 
 const notFound = require('./middlewares/notFound');
 const error = require('./middlewares/error');
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/auth', authRoute);
+app.use('/posts', postRoute)
 
 app.use(notFound);
 app.use(error);
