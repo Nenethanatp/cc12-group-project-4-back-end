@@ -1,40 +1,40 @@
 module.exports = (sequelize, DataTypes) => {
-  const SavedPlace = sequelize.define(
-    'SavedPlace',
+  const FavoritePlace = sequelize.define(
+    'FavoritePlace',
     {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: true
-        }
+          notEmpty: true,
+        },
       },
       latitude: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: true
-        }
+          notEmpty: true,
+        },
       },
       longitude: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: true
-        }
-      }
+          notEmpty: true,
+        },
+      },
     },
     { underscored: true }
   );
 
-  SavedPlace.associate = (db) => {
-    SavedPlace.belongsTo(db.User, {
+  FavoritePlace.associate = (db) => {
+    FavoritePlace.belongsTo(db.User, {
       foreignKey: {
         name: 'userId',
-        allowNull: false
-      }
+        allowNull: false,
+      },
     });
   };
 
-  return SavedPlace;
+  return FavoritePlace;
 };
