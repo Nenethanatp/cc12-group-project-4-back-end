@@ -6,7 +6,7 @@ const AppError = require('../utils/appError');
 
 const genToken = (payload) => {
   return jwt.sign(payload, process.env.JWT_SECRET_KEY || 'private_key', {
-    expiresIn: process.env.JWT_EXPIRES || '1d'
+    expiresIn: process.env.JWT_EXPIRES || '1d',
   });
 };
 
@@ -19,7 +19,7 @@ exports.register = async (req, res, next) => {
       lastName: Joi.string().required(),
       email: Joi.string().email({ tlds: { allow: ['com', 'net'] } }),
       password: Joi.string().required(),
-      confirmPassword: Joi.ref('password')
+      confirmPassword: Joi.ref('password'),
     }).with('password', 'confirmPassword');
 
     const { error } = schema.validate({
@@ -27,7 +27,7 @@ exports.register = async (req, res, next) => {
       lastName,
       email,
       password,
-      confirmPassword
+      confirmPassword,
     });
 
     if (error) {
@@ -39,7 +39,7 @@ exports.register = async (req, res, next) => {
       firstName,
       lastName,
       email,
-      password: hashedPassword
+      password: hashedPassword,
     });
     const token = genToken({ id: user.id });
     res.status(201).json({ token });

@@ -3,8 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 
-// const { sequelize } = require('./models');
-// sequelize.sync({force: true});
+const { sequelize } = require('./models');
+sequelize.sync({ force: true });
 
 const authRoute = require('./routes/authRoute');
 

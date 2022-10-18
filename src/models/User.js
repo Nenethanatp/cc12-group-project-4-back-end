@@ -6,36 +6,36 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: true
-        }
+          notEmpty: true,
+        },
       },
       lastName: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: true
-        }
+          notEmpty: true,
+        },
       },
       imageUrl: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          isEmail: true
-        }
+          isEmail: true,
+        },
       },
       password: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       googleId: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       role: {
         type: DataTypes.ENUM('user', 'admin'),
-        defaultValue: 'user'
-      }
+        defaultValue: 'user',
+      },
     },
     { underscored: true }
   );
@@ -44,43 +44,49 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(db.Post, {
       foreignKey: {
         name: 'userId',
-        allowNull: false
-      }
+        allowNull: false,
+      },
     });
 
-    User.hasMany(db.SavedPlace, {
+    User.hasMany(db.FavoritePlace, {
       foreignKey: {
         name: 'userId',
-        allowNull: false
-      }
+        allowNull: false,
+      },
     });
 
     User.hasMany(db.Comment, {
       foreignKey: {
         name: 'userId',
-        allowNull: false
-      }
+        allowNull: false,
+      },
     });
 
     User.hasMany(db.Like, {
       foreignKey: {
         name: 'userId',
-        allowNull: false
-      }
+        allowNull: false,
+      },
     });
 
     User.hasMany(db.Payment, {
       foreignKey: {
         name: 'userId',
-        allowNull: false
-      }
+        allowNull: false,
+      },
     });
 
     User.hasMany(db.Report, {
       foreignKey: {
         name: 'userId',
-        allowNull: false
-      }
+        allowNull: false,
+      },
+    });
+    User.hasMany(db.Subscription, {
+      foreignKey: {
+        name: 'userId',
+        allowNull: false,
+      },
     });
   };
 

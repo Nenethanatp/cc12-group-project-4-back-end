@@ -1,16 +1,16 @@
 module.exports = (sequelize, DataTypes) => {
-  const Location = sequelize.define(
-    'Location',
+  const Package = sequelize.define(
+    'Package',
     {
-      latitude: {
-        type: DataTypes.STRING,
+      type: {
+        type: DataTypes.ENUM('monthly', 'annually'),
         allowNull: false,
         validate: {
           notEmpty: true,
         },
       },
-      longitude: {
-        type: DataTypes.STRING,
+      price: {
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
         validate: {
           notEmpty: true,
@@ -19,15 +19,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     { underscored: true }
   );
-
-  Location.associate = (db) => {
-    Location.hasMany(db.Post, {
+  Package.associate = (db) => {
+    Package.hasMany(db.Subscription, {
       foreignKey: {
-        name: 'locationId',
+        name: 'packageId',
         allowNull: false,
       },
     });
   };
 
-  return Location;
+  return Package;
 };
