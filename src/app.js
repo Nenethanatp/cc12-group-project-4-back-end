@@ -5,6 +5,9 @@ const morgan = require('morgan');
 
 // const { sequelize } = require('./models');
 // sequelize.sync({ force: true });
+
+const postRoute = require('./routes/postRoute')
+
 const notFound = require('./middlewares/notFound');
 const error = require('./middlewares/error');
 
@@ -19,6 +22,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use('/posts', postRoute)
 
 app.use(notFound);
 app.use(error);
