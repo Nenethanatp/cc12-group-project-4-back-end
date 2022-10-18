@@ -75,6 +75,13 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     });
+
+    User.hasMany(db.Report, {
+      foreignKey: {
+        name: 'userId',
+        allowNull: false
+      }
+    });
   };
 
   return User;

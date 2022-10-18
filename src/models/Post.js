@@ -7,11 +7,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       report: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
+        type: DataTypes.INTEGER,
+        defaultValue: 0
       }
     },
-    { underscored: true }
+    { underscored: true, paranoid: true }
   );
 
   Post.associate = (db) => {
@@ -51,6 +51,13 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Post.hasMany(db.PostImage, {
+      foreignKey: {
+        name: 'postId',
+        allowNull: false
+      }
+    });
+
+    Post.hasMany(db.Report, {
       foreignKey: {
         name: 'postId',
         allowNull: false
