@@ -2,6 +2,7 @@ const Joi = require('joi');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const authService = require('../services/authService');
+const AppError = require('../utils/appError');
 
 const genToken = (payload) => {
   return jwt.sign(payload, process.env.JWT_SECRET_KEY || 'private_key', {

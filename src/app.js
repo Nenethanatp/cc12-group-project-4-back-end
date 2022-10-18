@@ -3,13 +3,11 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 
-<<<<<<< HEAD
-const authRoute = require('./routes/authRoute');
-=======
 // const { sequelize } = require('./models');
 // sequelize.sync({force: true});
 
->>>>>>> develop
+const authRoute = require('./routes/authRoute');
+
 const notFound = require('./middlewares/notFound');
 const error = require('./middlewares/error');
 

@@ -4,11 +4,7 @@ module.exports = {
   development: {
     username: 'root',
     password: DATABASE_PASSWORD,
-<<<<<<< HEAD
-    database: 'database_development',
-=======
     database: 'database_cc12_group4',
->>>>>>> develop
     host: '127.0.0.1',
     dialect: 'mysql'
   },
