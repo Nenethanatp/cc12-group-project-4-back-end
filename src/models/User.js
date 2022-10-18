@@ -69,13 +69,6 @@ module.exports = (sequelize, DataTypes) => {
       },
     });
 
-    User.hasMany(db.Payment, {
-      foreignKey: {
-        name: 'userId',
-        allowNull: false,
-      },
-    });
-
     User.hasMany(db.Report, {
       foreignKey: {
         name: 'userId',
