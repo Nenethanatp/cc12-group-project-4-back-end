@@ -4,7 +4,8 @@ const cors = require('cors');
 const morgan = require('morgan');
 
 // const { sequelize } = require('./models');
-// sequelize.sync({ force: true });
+// sequelize.sync({force: true});
+
 const notFound = require('./middlewares/notFound');
 const error = require('./middlewares/error');
 
