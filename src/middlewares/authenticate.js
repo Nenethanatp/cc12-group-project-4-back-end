@@ -22,9 +22,9 @@ module.exports = async (req, res, next) => {
 
     const user = await User.findOne({
       where: {
-        id: payload.id
+        id: payload.id,
       },
-      attributes: { exclude: ['password', 'googleId'] }
+      attributes: { exclude: ['password', 'googleId'] },
     });
     if (!user) {
       throw new AppError('unauthenticated', 401);
