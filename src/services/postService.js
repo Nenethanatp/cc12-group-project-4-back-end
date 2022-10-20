@@ -25,10 +25,14 @@ exports.getAllPost = async () => {
       { model: Report, attributes: { exclude: ['createdAt', 'updatedAt'] } },
       {
         model: Comment,
-        include: [{ model: User }],
-        attributes: {
-          exclude: ['createdAt', 'updatedAt', 'password', 'googleId']
-        }
+        include: [
+          {
+            model: User,
+            attributes: {
+              exclude: ['createdAt', 'updatedAt', 'password', 'googleId']
+            }
+          }
+        ]
       }
     ]
   });
