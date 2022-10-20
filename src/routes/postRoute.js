@@ -26,7 +26,17 @@ router.post(
   upload.single('commentImage'),
   commentController.createComment
 );
-
+router.patch(
+  '/:id/updateComments',
+  authenticate,
+  upload.single('updateCommentImage'),
+  commentController.updateComment
+);
+router.delete(
+  '/:id/deleteComments',
+  authenticate,
+  commentController.deleteComment
+);
 router.post('/:id/reports', authenticate, reportController.addReport);
 
 module.exports = router;
