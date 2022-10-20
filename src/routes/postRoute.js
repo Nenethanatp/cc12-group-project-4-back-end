@@ -8,10 +8,6 @@ const reportController = require('../controllers/reportController');
 
 const router = express.Router();
 
-// router.get('/', postController.getAll);
-
-// router.get('/:id', postController.getById);
-
 router.post(
   '/',
   authenticate,
@@ -28,5 +24,10 @@ router.post(
 );
 
 router.post('/:id/reports', authenticate, reportController.addReport);
+
+router.get('/', authenticate, postController.getAll);
+router.get('/:id', authenticate, postController.getById);
+
+router.delete('/:id', authenticate, postController.deleteById);
 
 module.exports = router;

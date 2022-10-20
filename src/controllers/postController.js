@@ -10,6 +10,11 @@ const {
   Type,
   sequelize,
 } = require('../models');
+const {
+  getAllPost,
+  getPostbyId,
+  deletePostById,
+} = require('../services/postService');
 
 exports.createPost = async (req, res, next) => {
   let t;
@@ -75,6 +80,44 @@ exports.createPost = async (req, res, next) => {
     res.status(200).json({ post });
   } catch (err) {
     await t.rollback();
+    next(err);
+  }
+};
+
+exports.getAll = async (req, res, next) => {
+  try {
+    const posts = await getAllPost();
+    if (!posts) {
+      throw new AppError('Not found any post', 400);
+    }
+    res.status(200).json({ posts });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getById = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const post = await getPostbyId(Number(id));
+    if (!post) {
+      throw new AppError('Not found this post', 400);
+    }
+    res.status(200).json({ post });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteById = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const result = await deletePostById(id);
+    if (result !== 1) {
+      throw new AppError("Don't have post to delete");
+    }
+    res.status(200).json({ message: 'Delete success' });
+  } catch (err) {
     next(err);
   }
 };
