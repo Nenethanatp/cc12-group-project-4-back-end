@@ -6,7 +6,7 @@ const {
   Like,
   User,
   Report,
-  Comment,
+  Comment
 } = require('../models');
 
 exports.getAllPost = async () => {
@@ -19,12 +19,18 @@ exports.getAllPost = async () => {
       {
         model: User,
         attributes: {
-          exclude: ['createdAt', 'updatedAt', 'password', 'googleId'],
-        },
+          exclude: ['createdAt', 'updatedAt', 'password', 'googleId']
+        }
       },
       { model: Report, attributes: { exclude: ['createdAt', 'updatedAt'] } },
-      { model: Comment },
-    ],
+      {
+        model: Comment,
+        include: [{ model: User }],
+        attributes: {
+          exclude: ['createdAt', 'updatedAt', 'password', 'googleId']
+        }
+      }
+    ]
   });
   return posts;
 };
@@ -40,12 +46,12 @@ exports.getPostbyId = async (id) => {
       {
         model: User,
         attributes: {
-          exclude: ['createdAt', 'updatedAt', 'password', 'googleId'],
-        },
+          exclude: ['createdAt', 'updatedAt', 'password', 'googleId']
+        }
       },
       { model: Report, attributes: { exclude: ['createdAt', 'updatedAt'] } },
-      { model: Comment },
-    ],
+      { model: Comment }
+    ]
   });
   return post;
 };
