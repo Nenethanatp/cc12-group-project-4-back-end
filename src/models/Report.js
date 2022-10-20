@@ -1,5 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Report = sequelize.define('Report', {}, { underscored: true });
+
   Report.associate = (db) => {
     Report.belongsTo(db.User, {
       foreignKey: {

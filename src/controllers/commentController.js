@@ -28,8 +28,11 @@ exports.createComment = async (req, res, next) => {
 
     const comment = await Comment.findOne({
       where: { id: newComment.id },
-      attribute: { exclude: 'userId' },
-      include: { model: User, attribute: { exclude: 'password' } }
+      attributes: { exclude: 'userId' },
+      include: {
+        model: User,
+        attributes: { exclude: ['password', 'googleId'] }
+      }
     });
 
     res.status(201).json({ comment });

@@ -4,6 +4,7 @@ const upload = require('../middlewares/upload');
 const authenticate = require('../middlewares/authenticate');
 const likeController = require('../controllers/likeController');
 const commentController = require('../controllers/commentController');
+const reportController = require('../controllers/reportController');
 
 const router = express.Router();
 
@@ -25,5 +26,7 @@ router.post(
   upload.single('commentImage'),
   commentController.createComment
 );
+
+router.post('/:id/reports', authenticate, reportController.addReport);
 
 module.exports = router;
