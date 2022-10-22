@@ -8,10 +8,6 @@ const reportController = require('../controllers/reportController');
 
 const router = express.Router();
 
-// router.get('/', postController.getAll);
-
-// router.get('/:id', postController.getById);
-
 router.post(
   '/',
   authenticate,
@@ -26,7 +22,27 @@ router.post(
   upload.single('commentImage'),
   commentController.createComment
 );
-
+router.patch(
+  '/:id/updateComments',
+  authenticate,
+  upload.single('updateCommentImage'),
+  commentController.updateComment
+);
+router.delete(
+  '/:id/deleteComments',
+  authenticate,
+  commentController.deleteComment
+);
 router.post('/:id/reports', authenticate, reportController.addReport);
+
+router.get('/', authenticate, postController.getAll);
+router.get('/:id', authenticate, postController.getById);
+
+router.put('/:id', 
+  authenticate, 
+  upload.fields([{ name: 'postImage' }]),
+  postController.updatePost);
+
+router.delete('/:id', authenticate, postController.deleteById);
 
 module.exports = router;

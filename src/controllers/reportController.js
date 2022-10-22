@@ -2,12 +2,11 @@ const { Report, Post } = require('../models');
 
 exports.addReport = async (req, res, next) => {
   try {
-    console.log(req.params.id);
     const wherePost = await Post.findOne({ where: { id: req.params.id } });
 
     const report = await Report.create({
       postId: wherePost.id,
-      userId: wherePost.userId
+      userId: req.user.id
     });
 
     res.status(200).json({ report });
