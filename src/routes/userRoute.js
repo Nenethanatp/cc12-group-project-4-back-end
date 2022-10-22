@@ -11,6 +11,7 @@ router.patch(
   upload.single('imageUrl'),
   userController.updateMe
 );
+router.get('/find', authenticate, userController.getUserByName);
 
 router.get('/:id', authenticate, userController.getUserById);
 

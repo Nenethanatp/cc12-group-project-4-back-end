@@ -5,6 +5,7 @@ const {
   updateUser,
   fetchUserById,
   isGoogleSignin,
+  fetchUsersByName
 } = require('../services/userService');
 const cloudinary = require('../utils/cloudinary');
 const fs = require('fs');
@@ -59,9 +60,25 @@ exports.getUserById = async (req, res, next) => {
     const id = Number(req.params.id);
     const user = await fetchUserById(id);
     if (!user) {
-      throw new AppError('User is not found');
+      throw new AppError('User is not found', 400);
     }
     res.status(200).json({ user });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getUserByName = async (req, res, next) => {
+  try {
+    const { name } = req.query;
+    if (!name) {
+      throw new AppError('invalid input', 400);
+    }
+    const users = await fetchUsersByName(name);
+    if (!users) {
+      throw new AppError('User not found', 400);
+    }
+    res.status(200).json({ users });
   } catch (err) {
     next(err);
   }
