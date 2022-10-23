@@ -13,6 +13,6 @@ router.patch(
 );
 router.get('/find', authenticate, userController.getUserByName);
 
-router.get('/:id', authenticate, userController.getUserById);
+router.get('/:id', userController.getUserById);
 
 module.exports = router;
