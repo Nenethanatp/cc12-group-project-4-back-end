@@ -14,7 +14,7 @@ const {
   getAllPost,
   getPostbyId,
   deletePostById,
-  deletePostImageById
+  deletePostImageById,
 } = require('../services/postService');
 
 exports.createPost = async (req, res, next) => {
@@ -119,9 +119,9 @@ exports.updatePost = async (req, res, next) => {
     const post = await getPostbyId(Number(id));
     if (!post) {
       throw new AppError('Post not found.', 404);
-    }   
+    }
 
-    post.content = content; 
+    post.content = content;
     post.typeId = typeId;
 
     const isThereLocation = await Location.findOne({
