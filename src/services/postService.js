@@ -64,3 +64,8 @@ exports.deletePostById = async (id) => {
   const result = await Post.destroy({ where: { id } });
   return result;
 };
+
+exports.deletePostImageById = async (id) => {
+  const result = await PostImage.destroy({ where: { id } });
+  return result;
+};
