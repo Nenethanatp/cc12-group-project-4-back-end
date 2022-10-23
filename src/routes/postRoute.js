@@ -38,6 +38,7 @@ router.post('/:id/reports', authenticate, reportController.addReport);
 router.get('/', authenticate, postController.getAll);
 router.get('/:id', authenticate, postController.getById);
 
+
 router.put('/:id',
   authenticate,
   upload.fields([{ name: 'postImage' }]),
