@@ -23,13 +23,13 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: true,
         },
       },
-      status: {
-        type: DataTypes.ENUM('subscribed', 'expired'),
-        allowNull: false,
-        validate: {
-          notEmpty: true,
-        },
-      },
+      // status: {
+      //   type: DataTypes.ENUM('subscribed', 'expired'),
+      //   allowNull: false,
+      //   validate: {
+      //     notEmpty: true,
+      //   },
+      // },
     },
     { underscored: true }
   );
