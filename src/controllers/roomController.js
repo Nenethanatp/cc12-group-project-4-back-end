@@ -43,3 +43,13 @@ exports.getAllMessages = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getAllChatRooms = async (req, res, next) => {
+  try {
+    const id = req.user.id;
+    const result = await roomService.getAllChatRooms(id);
+    res.status(200).json({ result });
+  } catch (err) {
+    next(err);
+  }
+};
