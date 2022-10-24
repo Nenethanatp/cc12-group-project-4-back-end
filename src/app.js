@@ -4,7 +4,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 
 // const { sequelize } = require('./models');
-// sequelize.sync({ force: true });
+// sequelize.sync({ alter: true });
 
 const authRoute = require('./routes/authRoute');
 const postRoute = require('./routes/postRoute');

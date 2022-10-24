@@ -1,12 +1,12 @@
-const { Transaction, Package } = require('../models');
+const { Transaction, Subscription, Package } = require('../models');
 
-exports.createTransaction = async () => {
+exports.createTransaction = async (input) => {
   const transaction = await Transaction.create(input);
   return transaction;
 };
 
 exports.createSubscription = async (input) => {
-  const subscribe = await Transaction.create(input);
+  const subscribe = await Subscription.create(input);
   return subscribe;
 };
 

@@ -33,7 +33,7 @@ exports.genStartEndDate = (type) => {
       const endDate = `${today.getFullYear() + 1}-${01}-${date}`;
       return endDate;
     };
-
+    const endDate = checkMonth();
     return { startDate, endDate };
   };
 

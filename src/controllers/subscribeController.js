@@ -27,10 +27,7 @@ exports.createCharge = async (req, res, next) => {
       customer: customer.id,
     });
 
-    return res.status(200).json({ charge: charge, customer: customer });
-
     const { startDate, endDate } = genStartEndDate(type);
-    console.log('-------------', startDate, endDate);
 
     const subscribe = await createSubscription({
       userId: req.user.id,
@@ -38,16 +35,13 @@ exports.createCharge = async (req, res, next) => {
       startDate,
       endDate,
     });
+
     const transaction = await createTransaction({
       subscriptionId: subscribe.id,
-      status: 'success',
-      price: Number(amount),
-      omiseId: '',
+      price: Number(amount) / 100,
+      omiseId: charge.id,
     });
-    console.log({ amount: charge.amount, status: charge.status });
-    return res
-      .status(200)
-      .json({ amount: charge.amount, status: charge.status });
+    res.status(200).json({ amount: charge.amount, status: charge.status });
   } catch (err) {
     next(err);
   }
@@ -57,8 +51,7 @@ exports.getAll = async (req, res, next) => {
   try {
     const allPackages = await getAllPackages();
     if (allPackages) {
-      console.log(allPackages);
-      res.status(200).json(allPackages);
+      return res.status(200).json(allPackages);
     }
     throw new AppError('Not found any package', 404);
   } catch (err) {
