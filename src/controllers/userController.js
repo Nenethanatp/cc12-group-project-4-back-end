@@ -74,10 +74,11 @@ exports.getUserByName = async (req, res, next) => {
     if (!name) {
       throw new AppError('invalid input', 400);
     }
-    const users = await fetchUsersByName(name);
-    if (!users) {
+    const newUsers = await fetchUsersByName(name);
+    if (!newUsers) {
       throw new AppError('User not found', 400);
     }
+    const users = newUsers.filter((item) => item.id !== req.user.id);
     res.status(200).json({ users });
   } catch (err) {
     next(err);
