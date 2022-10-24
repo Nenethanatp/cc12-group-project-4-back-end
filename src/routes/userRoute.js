@@ -14,7 +14,7 @@ router.patch(
 );
 router.get('/find', authenticate, userController.getUserByName);
 
-router.get('/:id', authenticate, userController.getUserById);
+router.get('/:id', userController.getUserById);
 
 router.get('/line/callback', lineCallbackAuthenticate, userController.lineCallback);
 
