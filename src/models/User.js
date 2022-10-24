@@ -35,6 +35,9 @@ module.exports = (sequelize, DataTypes) => {
       role: {
         type: DataTypes.ENUM('user', 'admin'),
         defaultValue: 'user'
+      },
+      lineAccessToken: {
+        type: DataTypes.STRING
       }
     },
     { underscored: true }
