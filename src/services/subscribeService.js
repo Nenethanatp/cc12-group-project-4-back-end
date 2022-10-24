@@ -16,3 +16,11 @@ exports.getAllPackages = async () => {
   });
   return allPackages;
 };
+
+exports.getEndDates = async (userId) => {
+  const endDates = await Subscription.findAll({
+    where: userId,
+    attributes: ['endDate'],
+  });
+  return endDates;
+};
