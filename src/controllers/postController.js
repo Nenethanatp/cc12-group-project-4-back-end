@@ -14,7 +14,8 @@ const {
   getAllPost,
   getPostbyId,
   deletePostById,
-  deletePostImageById
+  deletePostImageById,
+  getPostByUserId
 } = require('../services/postService');
 
 exports.createPost = async (req, res, next) => {
@@ -75,8 +76,11 @@ exports.createPost = async (req, res, next) => {
 };
 
 exports.getAll = async (req, res, next) => {
+  
   try {
-    const posts = await getAllPost();
+    const queryString = req.query;
+
+    const posts = await getAllPost(queryString);
     if (!posts) {
       throw new AppError('Not found any post', 400);
     }
@@ -98,6 +102,7 @@ exports.getById = async (req, res, next) => {
     next(err);
   }
 };
+
 
 exports.updatePost = async (req, res, next) => {
   let t;

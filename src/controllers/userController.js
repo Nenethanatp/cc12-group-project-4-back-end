@@ -7,6 +7,8 @@ const {
   isGoogleSignin,
   fetchUsersByName
 } = require('../services/userService');
+
+const lineService = require('../services/lineService')
 const cloudinary = require('../utils/cloudinary');
 const fs = require('fs');
 exports.updateMe = async (req, res, next) => {
@@ -82,4 +84,41 @@ exports.getUserByName = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+
 };
+
+
+exports.lineCallback = async (req, res, next) => {
+  try {
+    const { code, state} = req.query;
+    const user = req.user;
+
+    const access_token = await lineService.login(code);
+    // console.log('555')
+    // console.log(access_token)
+    
+    await updateUser(req.user.id, {...user, lineAccessToken: access_token});
+
+    res.send("<script>window.close();</script>")
+
+  } catch(err) {
+    console.log(err)
+    next(err)
+  }
+}
+
+exports.notify = async (req, res, next) => {
+  try {
+    const user = req.user;
+
+    const postService = require('../services/postService');
+    const post = await postService.getPostbyId(2);
+
+    const res = await lineService.notify(user, post);
+
+    res.status(200).json({ res });
+
+  } catch (err) {
+    next(err);
+  }
+}
