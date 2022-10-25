@@ -2,13 +2,13 @@ module.exports = (sequelize, DataTypes) => {
   const Subscription = sequelize.define(
     'Subscription',
     {
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: true,
-        },
-      },
+      // name: {
+      //   type: DataTypes.STRING,
+      //   allowNull: false,
+      //   validate: {
+      //     notEmpty: true,
+      //   },
+      // },
       startDate: {
         type: DataTypes.DATEONLY,
         allowNull: false,
@@ -23,13 +23,13 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: true,
         },
       },
-      status: {
-        type: DataTypes.ENUM('subscribed', 'expired'),
-        allowNull: false,
-        validate: {
-          notEmpty: true,
-        },
-      },
+      // status: {
+      //   type: DataTypes.ENUM('subscribed', 'expired'),
+      //   allowNull: false,
+      //   validate: {
+      //     notEmpty: true,
+      //   },
+      // },
     },
     { underscored: true }
   );
