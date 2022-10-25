@@ -6,7 +6,7 @@ exports.addReport = async (req, res, next) => {
 
     const report = await Report.create({
       postId: wherePost.id,
-      userId: wherePost.userId
+      userId: req.user.id
     });
 
     res.status(200).json({ report });

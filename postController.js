@@ -8,14 +8,13 @@ const {
   PostImage,
   Location,
   Type,
-  sequelize
+  sequelize,
 } = require('../models');
 const {
   getAllPost,
   getPostbyId,
   deletePostById,
   deletePostImageById,
-  getPostByUserId
 } = require('../services/postService');
 
 exports.createPost = async (req, res, next) => {
@@ -35,7 +34,7 @@ exports.createPost = async (req, res, next) => {
     }
 
     const isThereLocation = await Location.findOne({
-      where: { latitude, longitude }
+      where: { latitude, longitude },
     });
     if (isThereLocation) {
       data.locationId = isThereLocation.id;
@@ -77,9 +76,7 @@ exports.createPost = async (req, res, next) => {
 
 exports.getAll = async (req, res, next) => {
   try {
-    const queryString = req.query;
-
-    const posts = await getAllPost(queryString);
+    const posts = await getAllPost();
     if (!posts) {
       throw new AppError('Not found any post', 400);
     }
@@ -128,7 +125,7 @@ exports.updatePost = async (req, res, next) => {
     post.typeId = typeId;
 
     const isThereLocation = await Location.findOne({
-      where: { latitude, longitude }
+      where: { latitude, longitude },
     });
     if (isThereLocation) {
       post.locationId = isThereLocation.id;

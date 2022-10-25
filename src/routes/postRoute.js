@@ -38,11 +38,19 @@ router.post('/:id/reports', authenticate, reportController.addReport);
 router.get('/', authenticate, postController.getAll);
 router.get('/:id', authenticate, postController.getById);
 
-router.put('/:id', 
-  authenticate, 
+router.put(
+  '/:id',
+  authenticate,
   upload.fields([{ name: 'postImage' }]),
-  postController.updatePost);
+  postController.updatePost
+);
 
 router.delete('/:id', authenticate, postController.deleteById);
+
+router.delete(
+  '/:id/images/:imageId',
+  authenticate,
+  postController.deletePostImageById
+);
 
 module.exports = router;

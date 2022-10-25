@@ -9,8 +9,13 @@ const {
   Comment
 } = require('../models');
 
-exports.getAllPost = async () => {
+exports.getAllPost = async (queryString) => {
+
+  
   const posts = await Post.findAll({
+
+    where : queryString,
+    
     include: [
       { model: Type, attributes: { exclude: ['createdAt', 'updatedAt'] } },
       { model: Location, attributes: { exclude: ['createdAt', 'updatedAt'] } },
@@ -40,7 +45,7 @@ exports.getAllPost = async () => {
 };
 
 exports.getPostbyId = async (id) => {
-  const post = await Post.findOne({
+    const post = await Post.findOne({
     where: { id },
     include: [
       { model: Type, attributes: { exclude: ['createdAt', 'updatedAt'] } },
@@ -60,7 +65,14 @@ exports.getPostbyId = async (id) => {
   return post;
 };
 
+
+
 exports.deletePostById = async (id) => {
   const result = await Post.destroy({ where: { id } });
+  return result;
+};
+
+exports.deletePostImageById = async (id) => {
+  const result = await PostImage.destroy({ where: { id } });
   return result;
 };
