@@ -13,7 +13,19 @@ exports.toggleFollow = async (req, res, next) => {
 
     const follow = await Follow.create({
       followerId: req.user.id,
-      followingId: req.params.followId
+      followingId: +req.params.followId
+    });
+
+    res.status(201).json({ follow });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getFollow = async (req, res, next) => {
+  try {
+    const follow = await Follow.findAll({
+      where: { followerId: req.user.id }
     });
 
     res.status(201).json({ follow });

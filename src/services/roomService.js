@@ -35,3 +35,12 @@ exports.getAllMessages = async (room) => {
   const result = await ChatMessage.findAll({ where: { room } });
   return result;
 };
+
+exports.getAllChatRooms = async (id) => {
+  const result = await ChatUser.findAll({
+    where: {
+      [Op.or]: [{ user1: id }, { user2: id }]
+    }
+  });
+  return result;
+};

@@ -7,8 +7,6 @@ const http = require('http');
 // const { sequelize } = require('./models');
 // sequelize.sync({ alter: true });
 
-
-
 const authRoute = require('./routes/authRoute');
 const postRoute = require('./routes/postRoute');
 const userRoute = require('./routes/userRoute');
