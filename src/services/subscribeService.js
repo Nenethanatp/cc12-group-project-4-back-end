@@ -19,7 +19,7 @@ exports.getAllPackages = async () => {
 
 exports.getEndDates = async (userId) => {
   const endDates = await Subscription.findAll({
-    where: userId,
+    where: { userId: Number(userId) },
     attributes: ['endDate'],
   });
   return endDates;
