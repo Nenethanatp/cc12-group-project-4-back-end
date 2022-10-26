@@ -16,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: true,
         },
       },
+      detail: {
+        type: DataTypes.STRING(),
+      },
     },
     { underscored: true }
   );

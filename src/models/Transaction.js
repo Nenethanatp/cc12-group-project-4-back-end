@@ -2,13 +2,13 @@ module.exports = (sequelize, DataTypes) => {
   const Transaction = sequelize.define(
     'Transaction',
     {
-      status: {
-        type: DataTypes.ENUM('pending', 'success'),
-        allowNull: false,
-        validate: {
-          notEmpty: true,
-        },
-      },
+      // status: {
+      //   type: DataTypes.ENUM('pending', 'success'),
+      //   allowNull: false,
+      //   validate: {
+      //     notEmpty: true,
+      //   },
+      // },
       price: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,

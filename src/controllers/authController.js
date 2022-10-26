@@ -1,12 +1,12 @@
-const Joi = require("joi");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const authService = require("../services/authService");
-const AppError = require("../utils/appError");
+const Joi = require('joi');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const authService = require('../services/authService');
+const AppError = require('../utils/appError');
 
 const genToken = (payload) => {
-  return jwt.sign(payload, process.env.JWT_SECRET_KEY || "private_key", {
-    expiresIn: process.env.JWT_EXPIRES || "1d",
+  return jwt.sign(payload, process.env.JWT_SECRET_KEY || 'private_key', {
+    expiresIn: process.env.JWT_EXPIRES || '1d',
   });
 };
 
@@ -18,11 +18,11 @@ exports.register = async (req, res, next) => {
       firstName: Joi.string().required(),
       lastName: Joi.string().required(),
       email: Joi.string()
-        .email({ tlds: { allow: ["com", "net"] } })
+        .email({ tlds: { allow: ['com', 'net'] } })
         .required(),
       password: Joi.string().required(),
-      confirmPassword: Joi.ref("password"),
-    }).with("password", "confirmPassword");
+      confirmPassword: Joi.ref('password'),
+    }).with('password', 'confirmPassword');
 
     const { error } = schema.validate({
       firstName,
@@ -55,7 +55,7 @@ exports.login = async (req, res, next) => {
     const { email, password } = req.body;
     const schema = Joi.object({
       email: Joi.string()
-        .email({ tlds: { allow: ["com", "net"] } })
+        .email({ tlds: { allow: ['com', 'net'] } })
         .required(),
       password: Joi.string().required(),
     });
@@ -68,11 +68,11 @@ exports.login = async (req, res, next) => {
     }
     const user = await authService.getUserByEmail(email);
     if (!user) {
-      throw new AppError("email address or password is invalid", 400);
+      throw new AppError('email address or password is invalid', 400);
     }
     const isCorrect = await bcrypt.compare(password, user.password);
     if (!isCorrect) {
-      throw new AppError("email address or password is invalid", 400);
+      throw new AppError('email address or password is invalid', 400);
     }
 
     const token = genToken({ id: user.id });
@@ -83,7 +83,7 @@ exports.login = async (req, res, next) => {
 };
 
 exports.getMe = async (req, res, next) => {
-  res.status(200).json({ user: req.user });
+  res.status(200).json({ user: req.user, status: req.status });
 };
 
 exports.googleLogin = async (req, res, next) => {
@@ -93,7 +93,7 @@ exports.googleLogin = async (req, res, next) => {
       firstName: Joi.string().required(),
       lastName: Joi.string().required(),
       email: Joi.string()
-        .email({ tlds: { allow: ["com", "net"] } })
+        .email({ tlds: { allow: ['com', 'net'] } })
         .required(),
       googleId: Joi.string().required(),
     });

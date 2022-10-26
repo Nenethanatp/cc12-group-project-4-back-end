@@ -10,7 +10,9 @@ const http = require('http');
 const authRoute = require('./routes/authRoute');
 const postRoute = require('./routes/postRoute');
 const userRoute = require('./routes/userRoute');
+const subscribeRoute = require('./routes/subscribeRoute');
 const roomRoute = require('./routes/roomRoute');
+const followRoute = require('./routes/followRoute');
 
 const notFound = require('./middlewares/notFound');
 const error = require('./middlewares/error');
@@ -32,7 +34,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/auth', authRoute);
 app.use('/posts', postRoute);
 app.use('/user', userRoute);
+app.use('/subscribe', subscribeRoute);
 app.use('/room', roomRoute);
+app.use('/follows', followRoute);
 
 app.use(notFound);
 app.use(error);
