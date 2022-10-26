@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.post('/', authenticate, SubscribeController.createCharge);
 router.get('/allPackage', authenticate, SubscribeController.getAll);
+router.get('/endDate', authenticate, SubscribeController.getEndDate);
 
 module.exports = router;
