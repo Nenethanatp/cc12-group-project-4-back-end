@@ -16,7 +16,7 @@ exports.getByUserId = async (userId) => {
 exports.getAll = async (query = {}) => {
     return await FavoritePlace.findAll({
         where: query,
-        include: { model: User, attributes: { exclude: ['createdAt', 'updatedAt'] } },
+        include: { model: User },
     });
 }
 
