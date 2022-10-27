@@ -8,6 +8,8 @@ const {
   fetchUsersByName
 } = require('../services/userService');
 
+const favoriteService = require('../services/favoriteService');
+
 const lineService = require('../services/lineService');
 const cloudinary = require('../utils/cloudinary');
 const fs = require('fs');
@@ -123,3 +125,37 @@ exports.notify = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.addFavorite = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const { name, latitude, longitude } = req.body;
+
+    const data = {
+      name: name,
+      userId: user.id,
+      latitude: latitude,
+      longitude: longitude,
+    }
+
+    console.log(data);
+
+    const resp = await favoriteService.create(data);
+
+    res.status(200).json({ resp });
+
+
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getFavorites = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const favorites = await favoriteService.getByUserId(user.id);
+    res.status(200).json({ favorites });
+  } catch (err) {
+    next(err);
+  }
+}
