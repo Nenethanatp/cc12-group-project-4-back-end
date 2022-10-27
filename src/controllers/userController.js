@@ -8,13 +8,13 @@ const {
   fetchUsersByName
 } = require('../services/userService');
 
-const lineService = require('../services/lineService')
+const lineService = require('../services/lineService');
 const cloudinary = require('../utils/cloudinary');
 const fs = require('fs');
 exports.updateMe = async (req, res, next) => {
   const file = req.file;
   try {
-    const { oldPassword, newPassword, imageUrl } = req.body;
+    const { oldPassword, newPassword, imageUrl, description } = req.body;
     const update = {};
     const oldUser = await getUserByEmail(req.user.email);
     if (!(await isGoogleSignin(oldUser.id))) {
@@ -31,6 +31,10 @@ exports.updateMe = async (req, res, next) => {
           );
         }
       }
+    }
+
+    if (description) {
+      update.description = description;
     }
 
     if (file) {
@@ -85,28 +89,25 @@ exports.getUserByName = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-
 };
-
 
 exports.lineCallback = async (req, res, next) => {
   try {
-    const { code, state} = req.query;
+    const { code, state } = req.query;
     const user = req.user;
 
     const access_token = await lineService.login(code);
     // console.log('555')
     // console.log(access_token)
-    
-    await updateUser(req.user.id, {...user, lineAccessToken: access_token});
 
-    res.send("<script>window.close();</script>")
+    await updateUser(req.user.id, { ...user, lineAccessToken: access_token });
 
-  } catch(err) {
-    console.log(err)
-    next(err)
+    res.send('<script>window.close();</script>');
+  } catch (err) {
+    console.log(err);
+    next(err);
   }
-}
+};
 
 exports.notify = async (req, res, next) => {
   try {
@@ -118,8 +119,7 @@ exports.notify = async (req, res, next) => {
     const res = await lineService.notify(user, post);
 
     res.status(200).json({ res });
-
   } catch (err) {
     next(err);
   }
-}
+};

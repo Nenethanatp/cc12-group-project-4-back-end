@@ -38,6 +38,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       lineAccessToken: {
         type: DataTypes.STRING
+      },
+      description: {
+        type: DataTypes.STRING(500)
       }
     },
     { underscored: true }
