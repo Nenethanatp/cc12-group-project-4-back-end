@@ -1,11 +1,11 @@
-const AppError = require("../utils/appError");
-const {Type} = require("../models");
+const AppError = require('../utils/appError');
+const { Type } = require('../models');
 
 exports.getAll = async (req, res, next) => {
   try {
     const type = await Type.findAll();
-    res.status(200).json({type})
+    res.status(200).json({ type });
   } catch (err) {
-    next(err)
+    next(err);
   }
 };

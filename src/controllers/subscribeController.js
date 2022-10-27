@@ -59,3 +59,23 @@ exports.getAll = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getEndDate = async (req, res, next) => {
+  const { id } = req.user;
+
+  try {
+    const endDates = await getEndDates(id);
+    const convertArrayEndDates = JSON.parse(JSON.stringify(endDates));
+
+    const arrayEndDates = convertArrayEndDates.map((item) => item.endDate);
+
+    if (arrayEndDates.length === 0) {
+      res.status(200).json({ endDate: 'expired' });
+    } else {
+      arrayEndDates.sort().reverse();
+      res.status(200).json({ endDate: arrayEndDates[0] });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
