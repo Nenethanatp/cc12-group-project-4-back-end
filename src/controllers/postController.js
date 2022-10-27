@@ -18,6 +18,9 @@ const {
   getPostByUserId,
 } = require('../services/postService');
 
+const favoriteService = require('../services/favoriteService');
+const lineService = require('../services/lineService');
+
 exports.createPost = async (req, res, next) => {
   let t;
   try {
@@ -68,8 +71,19 @@ exports.createPost = async (req, res, next) => {
 
     const post = await getPostbyId(newPost.id);
 
+    const q = {
+      latitude: post.Location.latitude,
+      longitude: post.Location.longitude,
+    }
+
+    const places = await favoriteService.getAll(q);
+    places.forEach(place => {
+      lineService.notify(place.User, post);
+    });
+
     res.status(200).json({ post });
   } catch (err) {
+    console.log(err);
     await t.rollback();
     next(err);
   }
