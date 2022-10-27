@@ -14,6 +14,9 @@ router.patch(
 );
 router.get('/find', authenticate, userController.getUserByName);
 
+router.post('/add-favorite', authenticate, userController.addFavorite);
+router.get('/favorites', authenticate, userController.getFavorites);
+
 router.get('/:id', authenticate, userController.getUserById);
 
 router.get(
@@ -24,7 +27,5 @@ router.get(
 
 router.post('/notify', authenticate, userController.notify);
 
-router.post('/add-favorite', authenticate, userController.addFavorite);
-router.get('/favorites', authenticate, userController.getFavorites);
 
 module.exports = router;

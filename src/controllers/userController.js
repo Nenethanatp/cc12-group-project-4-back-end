@@ -140,9 +140,9 @@ exports.addFavorite = async (req, res, next) => {
 
     console.log(data);
 
-    const resp = await favoriteService.create(data);
+    const favorite = await favoriteService.create(data);
 
-    res.status(200).json({ resp });
+    res.status(200).json({ favorite });
 
 
   } catch (err) {
