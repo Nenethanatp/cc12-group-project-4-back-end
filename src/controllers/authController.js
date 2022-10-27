@@ -43,7 +43,7 @@ exports.register = async (req, res, next) => {
       email,
       password: hashedPassword,
     });
-    const token = genToken({ id: user.id });
+    const token = genToken({ id: user.id, role: user.role });
     res.status(201).json({ token });
   } catch (err) {
     next(err);
@@ -75,7 +75,7 @@ exports.login = async (req, res, next) => {
       throw new AppError('email address or password is invalid', 400);
     }
 
-    const token = genToken({ id: user.id });
+    const token = genToken({ id: user.id, role: user.role });
     res.status(200).json({ token });
   } catch (err) {
     next(err);

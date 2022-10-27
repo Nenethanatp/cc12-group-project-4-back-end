@@ -6,16 +6,13 @@ const {
   Like,
   User,
   Report,
-  Comment
+  Comment,
 } = require('../models');
 
 exports.getAllPost = async (queryString) => {
-
-  
   const posts = await Post.findAll({
+    where: queryString,
 
-    where : queryString,
-    
     include: [
       { model: Type, attributes: { exclude: ['createdAt', 'updatedAt'] } },
       { model: Location, attributes: { exclude: ['createdAt', 'updatedAt'] } },
@@ -24,8 +21,8 @@ exports.getAllPost = async (queryString) => {
       {
         model: User,
         attributes: {
-          exclude: ['createdAt', 'updatedAt', 'password', 'googleId']
-        }
+          exclude: ['createdAt', 'updatedAt', 'password', 'googleId'],
+        },
       },
       { model: Report, attributes: { exclude: ['createdAt', 'updatedAt'] } },
       {
@@ -34,18 +31,18 @@ exports.getAllPost = async (queryString) => {
           {
             model: User,
             attributes: {
-              exclude: ['createdAt', 'updatedAt', 'password', 'googleId']
-            }
-          }
-        ]
-      }
-    ]
+              exclude: ['createdAt', 'updatedAt', 'password', 'googleId'],
+            },
+          },
+        ],
+      },
+    ],
   });
   return posts;
 };
 
 exports.getPostbyId = async (id) => {
-    const post = await Post.findOne({
+  const post = await Post.findOne({
     where: { id },
     include: [
       { model: Type, attributes: { exclude: ['createdAt', 'updatedAt'] } },
@@ -55,24 +52,35 @@ exports.getPostbyId = async (id) => {
       {
         model: User,
         attributes: {
-          exclude: ['createdAt', 'updatedAt', 'password', 'googleId']
-        }
+          exclude: ['createdAt', 'updatedAt', 'password', 'googleId'],
+        },
       },
       { model: Report, attributes: { exclude: ['createdAt', 'updatedAt'] } },
-      { model: Comment }
-    ]
+      { model: Comment },
+    ],
   });
   return post;
 };
-
-
 
 exports.deletePostById = async (id) => {
   const result = await Post.destroy({ where: { id } });
   return result;
 };
 
-exports.deletePostImageById = async (id) => {
-  const result = await PostImage.destroy({ where: { id } });
+exports.deletePostImageById = async (postId) => {
+  const result = await PostImage.destroy({ where: { postId } });
   return result;
+};
+
+exports.getAllReported = async () => {
+  const reportedPosts = await Post.findAll({
+    include: [
+      { model: PostImage, attributes: { exclude: ['createdAt', 'updatedAt'] } },
+      { model: Type, attributes: { exclude: ['createdAt', 'updatedAt'] } },
+      { model: Location, attributes: { exclude: ['createdAt', 'updatedAt'] } },
+      { model: Report, required: true },
+      { model: User, attributes: { exclude: ['password', 'googleId'] } },
+    ],
+  });
+  return reportedPosts;
 };
