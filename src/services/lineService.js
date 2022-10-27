@@ -28,7 +28,7 @@ exports.login = async (code) => {
 
 exports.notify = async (user, post) => {
   const formdata = {
-    message: `${post.content} - ${process.env.WEBSITE_URL}/posts/${post.id}`,
+    message: `${post.content} - ${process.env.WEBSITE_URL}/post/${post.id}`,
     // imageFullsize: post.PostImages[0]?.imageUrl
   };
 

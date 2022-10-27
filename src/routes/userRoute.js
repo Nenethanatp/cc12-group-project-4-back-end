@@ -24,4 +24,7 @@ router.get(
 
 router.post('/notify', authenticate, userController.notify);
 
+router.post('/add-favorite', authenticate, userController.addFavorite);
+router.get('/favorites', authenticate, userController.getFavorites);
+
 module.exports = router;
