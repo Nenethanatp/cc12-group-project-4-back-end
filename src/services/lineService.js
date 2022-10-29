@@ -1,4 +1,5 @@
 const axios = require('axios');
+const subscriptionService = require('../services/subscribeService');
 
 exports.login = async (code) => {
   const formdata = {
@@ -27,6 +28,14 @@ exports.login = async (code) => {
 }
 
 exports.notify = async (user, post) => {
+
+  const hasSubscription = await subscriptionService.hasSubscription(user.id);
+  console.log(hasSubscription);
+  if (!hasSubscription) {
+    console.log('no subscription');
+    return;
+  }
+
   const formdata = {
     message: `${post.content} - ${process.env.WEBSITE_URL}/post/${post.id}`,
     // imageFullsize: post.PostImages[0]?.imageUrl
