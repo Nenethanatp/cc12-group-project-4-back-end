@@ -1,8 +1,10 @@
 const express = require('express');
-const typeController = require("../controllers/typeController");
+const typeController = require('../controllers/typeController');
+const authenticate = require('../middlewares/authenticate');
+const subscribe = require('../middlewares/subscribe');
 
 const router = express.Router();
 
-router.get("/", typeController.getAll);
+router.get('/', authenticate, typeController.getAll);
 
 module.exports = router;

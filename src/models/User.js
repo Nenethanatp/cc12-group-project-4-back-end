@@ -6,36 +6,42 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: true,
-        },
+          notEmpty: true
+        }
       },
       lastName: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: true,
-        },
+          notEmpty: true
+        }
       },
       imageUrl: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          isEmail: true,
-        },
+          isEmail: true
+        }
       },
       password: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING
       },
       googleId: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING
       },
       role: {
         type: DataTypes.ENUM('user', 'admin'),
-        defaultValue: 'user',
+        defaultValue: 'user'
       },
+      lineAccessToken: {
+        type: DataTypes.STRING
+      },
+      description: {
+        type: DataTypes.STRING(500)
+      }
     },
     { underscored: true }
   );
@@ -44,42 +50,57 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(db.Post, {
       foreignKey: {
         name: 'userId',
-        allowNull: false,
-      },
+        allowNull: false
+      }
     });
 
     User.hasMany(db.FavoritePlace, {
       foreignKey: {
         name: 'userId',
-        allowNull: false,
-      },
+        allowNull: false
+      }
     });
 
     User.hasMany(db.Comment, {
       foreignKey: {
         name: 'userId',
-        allowNull: false,
-      },
+        allowNull: false
+      }
     });
 
     User.hasMany(db.Like, {
       foreignKey: {
         name: 'userId',
-        allowNull: false,
-      },
+        allowNull: false
+      }
     });
 
     User.hasMany(db.Report, {
       foreignKey: {
         name: 'userId',
-        allowNull: false,
-      },
+        allowNull: false
+      }
     });
+
     User.hasMany(db.Subscription, {
       foreignKey: {
         name: 'userId',
-        allowNull: false,
-      },
+        allowNull: false
+      }
+    });
+
+    User.hasMany(db.Follow, {
+      as: 'Follower',
+      foreignKey: {
+        name: 'followerId'
+      }
+    });
+
+    User.hasMany(db.Follow, {
+      as: 'Following',
+      foreignKey: {
+        name: 'followingId'
+      }
     });
   };
 

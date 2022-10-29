@@ -30,6 +30,10 @@ module.exports = async (req, res, next) => {
       throw new AppError('unauthenticated', 401);
     }
 
+    if (user.role === 'user') {
+      throw new AppError('You are not admin', 401);
+    }
+
     req.user = user;
     next();
   } catch (err) {
