@@ -1,4 +1,6 @@
-const { Transaction, Subscription, Package } = require('../models');
+const { Transaction, Subscription, Package, sequelize } = require('../models');
+const { Op } = require('sequelize');
+const moment = require('moment');
 
 exports.createTransaction = async (input) => {
   const transaction = await Transaction.create(input);
@@ -23,4 +25,19 @@ exports.getEndDates = async (userId) => {
     attributes: ['endDate'],
   });
   return endDates;
+};
+
+exports.hasSubscription = async (userId) => {
+  console.log(moment().toDate());
+  return await Subscription.findOne({
+    where: {
+      userId: Number(userId),
+      endDate: {
+        [Op.gte]: moment().toDate()
+      }
+    },
+    order: [
+      ['endDate', 'DESC'],
+    ],
+  });
 };
