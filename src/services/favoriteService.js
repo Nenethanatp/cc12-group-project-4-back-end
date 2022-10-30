@@ -20,6 +20,12 @@ exports.getAll = async (query = {}) => {
     });
 }
 
-exports.delete = async (id) => {
-    return await FavoritePlace.destroy({ where: { id } });
+exports.delete = async (userId, favoriteId) => {
+    return await FavoritePlace
+        .destroy({
+            where: {
+                id: favoriteId,
+                userId: userId,
+            }
+        });
 }

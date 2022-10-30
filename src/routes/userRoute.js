@@ -16,6 +16,7 @@ router.get('/find', authenticate, userController.getUserByName);
 
 router.post('/add-favorite', authenticate, userController.addFavorite);
 router.get('/favorites', authenticate, userController.getFavorites);
+router.delete('/favorites/:id', authenticate, userController.deleteFavorite);
 
 router.get('/:id', authenticate, userController.getUserById);
 
