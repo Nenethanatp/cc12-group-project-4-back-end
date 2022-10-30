@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const authService = require('../services/authService');
 const AppError = require('../utils/appError');
+const { isGoogleSignin } = require('../services/userService');
 
 const genToken = (payload) => {
   return jwt.sign(payload, process.env.JWT_SECRET_KEY || 'private_key', {
@@ -83,7 +84,10 @@ exports.login = async (req, res, next) => {
 };
 
 exports.getMe = async (req, res, next) => {
-  res.status(200).json({ user: req.user, status: req.status });
+  const ggSignin = await isGoogleSignin(req.user.id);
+  res
+    .status(200)
+    .json({ user: req.user, status: req.status, ggSignin: ggSignin });
 };
 
 exports.googleLogin = async (req, res, next) => {
@@ -114,6 +118,7 @@ exports.googleLogin = async (req, res, next) => {
       googleId,
     });
     const token = genToken({ id: user.id });
+
     res.status(201).json({ token });
   } catch (err) {
     next(err);

@@ -5,7 +5,7 @@ const {
   updateUser,
   fetchUserById,
   isGoogleSignin,
-  fetchUsersByName
+  fetchUsersByName,
 } = require('../services/userService');
 
 const favoriteService = require('../services/favoriteService');
@@ -46,13 +46,12 @@ exports.updateMe = async (req, res, next) => {
       );
       update.imageUrl = secureUrl;
     }
-
     if (Object.keys(update).length !== 0) {
       const updated = await updateUser(req.user.id, update);
 
       res.status(200).json({ message: 'Success update profile' });
     } else {
-      throw new AppError('Nothing to update', 400);
+      throw new AppError('Cannot update profile', 400);
     }
   } catch (err) {
     next(err);
@@ -136,15 +135,13 @@ exports.addFavorite = async (req, res, next) => {
       userId: user.id,
       latitude: latitude,
       longitude: longitude,
-    }
+    };
 
     console.log(data);
 
     const favorite = await favoriteService.create(data);
 
     res.status(200).json({ favorite });
-
-
   } catch (err) {
     next(err);
   }
@@ -158,4 +155,4 @@ exports.getFavorites = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
+};
