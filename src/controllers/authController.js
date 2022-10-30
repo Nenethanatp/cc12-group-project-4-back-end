@@ -33,7 +33,7 @@ exports.register = async (req, res, next) => {
       confirmPassword
     });
 
-    if (error.message === `"email" must be a valid email`) {
+    if (error && error.message === `"email" must be a valid email`) {
       throw new AppError('Email is invalid format ,please try again', 400);
     }
 
