@@ -6,7 +6,7 @@ const {
   Like,
   User,
   Report,
-  Comment,
+  Comment
 } = require('../models');
 
 exports.getAllPost = async (queryString) => {
@@ -21,8 +21,8 @@ exports.getAllPost = async (queryString) => {
       {
         model: User,
         attributes: {
-          exclude: ['createdAt', 'updatedAt', 'password', 'googleId'],
-        },
+          exclude: ['createdAt', 'updatedAt', 'password', 'googleId']
+        }
       },
       { model: Report, attributes: { exclude: ['createdAt', 'updatedAt'] } },
       {
@@ -31,12 +31,12 @@ exports.getAllPost = async (queryString) => {
           {
             model: User,
             attributes: {
-              exclude: ['createdAt', 'updatedAt', 'password', 'googleId'],
-            },
-          },
-        ],
-      },
-    ],
+              exclude: ['createdAt', 'updatedAt', 'password', 'googleId']
+            }
+          }
+        ]
+      }
+    ]
   });
   return posts;
 };
@@ -52,12 +52,12 @@ exports.getPostbyId = async (id) => {
       {
         model: User,
         attributes: {
-          exclude: ['createdAt', 'updatedAt', 'password', 'googleId'],
-        },
+          exclude: ['createdAt', 'updatedAt', 'password', 'googleId']
+        }
       },
       { model: Report, attributes: { exclude: ['createdAt', 'updatedAt'] } },
-      { model: Comment },
-    ],
+      { model: Comment }
+    ]
   });
   return post;
 };
@@ -80,7 +80,8 @@ exports.getAllReported = async () => {
       { model: Location, attributes: { exclude: ['createdAt', 'updatedAt'] } },
       { model: Report, required: true },
       { model: User, attributes: { exclude: ['password', 'googleId'] } },
-    ],
+      { model: Comment }
+    ]
   });
   return reportedPosts;
 };

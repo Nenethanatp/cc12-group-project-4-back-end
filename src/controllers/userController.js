@@ -156,3 +156,14 @@ exports.getFavorites = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.deleteFavorite = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const favoriteId = req.params.id;
+    const resp = await favoriteService.delete(user.id, favoriteId);
+    res.status(200).json({ resp });
+  } catch (err) {
+    next(err);
+  }
+};
