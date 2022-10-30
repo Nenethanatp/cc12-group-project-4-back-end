@@ -42,6 +42,7 @@ exports.createCharge = async (req, res, next) => {
       price: Number(amount) / 100,
       omiseId: charge.id,
     });
+    console.log(charge.status);
     res.status(200).json({ amount: charge.amount, status: charge.status });
   } catch (err) {
     next(err);
