@@ -9,14 +9,14 @@ exports.updateUser = async (id, input) => {
 exports.fetchUserById = async (id) => {
   const user = await User.findOne({
     where: { id },
-    attributes: { exclude: ['password', 'googleId'] }
+    attributes: { exclude: ['password', 'googleId'] },
   });
   return user;
 };
 
 exports.isGoogleSignin = async (id) => {
   const user = await User.findOne({
-    where: { id }
+    where: { id },
   });
   if (user.googleId) {
     return true;
@@ -30,15 +30,15 @@ exports.fetchUsersByName = async (name) => {
     const users = await User.findAll({
       where: {
         firstName: { [Op.like]: `%${nameArr[0]}%` },
-        lastName: { [Op.like]: `%${nameArr[1]}%` }
+        lastName: { [Op.like]: `%${nameArr[1]}%` },
       },
-      attributes: { exclude: ['password', 'googleId'] }
+      attributes: { exclude: ['password', 'googleId'] },
     });
     return users;
   }
   const users = User.findAll({
     where: { firstName: { [Op.like]: `%${name}%` } },
-    attributes: { exclude: ['password', 'googleId'] }
+    attributes: { exclude: ['password', 'googleId'] },
   });
   return users;
 };
