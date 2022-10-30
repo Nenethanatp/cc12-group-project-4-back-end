@@ -30,7 +30,6 @@ exports.login = async (code) => {
 exports.notify = async (user, post) => {
 
   const hasSubscription = await subscriptionService.hasSubscription(user.id);
-  console.log(hasSubscription);
   if (!hasSubscription) {
     console.log('no subscription');
     return;
