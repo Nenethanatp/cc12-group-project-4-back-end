@@ -28,5 +28,4 @@ router.get(
 
 router.post('/notify', authenticate, userController.notify);
 
-
 module.exports = router;
