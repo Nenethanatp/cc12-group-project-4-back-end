@@ -7,9 +7,12 @@ const {
 
 const { genStartEndDate } = require('../utils/formatDate');
 const AppError = require('../utils/appError');
+const { sequelize } = require('../models');
 
 exports.createCharge = async (req, res, next) => {
+  let t;
   try {
+    t = await sequelize.transaction();
     const { email, name, amount, token, packageId, type } = req.body;
 
     let omise = require('omise')({
@@ -29,22 +32,31 @@ exports.createCharge = async (req, res, next) => {
     });
 
     const { startDate, endDate } = genStartEndDate(type);
-
-    const subscribe = await createSubscription({
-      userId: req.user.id,
-      packageId: packageId,
-      startDate,
-      endDate,
-    });
-
-    const transaction = await createTransaction({
-      subscriptionId: subscribe.id,
-      price: Number(amount) / 100,
-      omiseId: charge.id,
-    });
     console.log(charge.status);
-    res.status(200).json({ amount: charge.amount, status: charge.status });
+    if (charge.status === 'successful') {
+      const subscribe = await createSubscription(
+        {
+          userId: req.user.id,
+          packageId: packageId,
+          startDate,
+          endDate,
+        },
+        { transaction: t }
+      );
+
+      const transaction = await createTransaction(
+        {
+          subscriptionId: subscribe.id,
+          price: Number(amount) / 100,
+          omiseId: charge.id,
+        },
+        { transaction: t }
+      );
+      await t.commit();
+      res.status(200).json({ amount: charge.amount, status: charge.status });
+    }
   } catch (err) {
+    await t.rollback();
     next(err);
   }
 };
