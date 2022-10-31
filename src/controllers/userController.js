@@ -17,6 +17,8 @@ exports.updateMe = async (req, res, next) => {
   const file = req.file;
   try {
     const { oldPassword, newPassword, imageUrl, description } = req.body;
+    console.log(description);
+
     const update = {};
     const oldUser = await getUserByEmail(req.user.email);
     if (!(await isGoogleSignin(oldUser.id))) {
@@ -35,7 +37,8 @@ exports.updateMe = async (req, res, next) => {
       }
     }
 
-    if (description) {
+    if (description === '' || description) {
+      console.log(1);
       update.description = description;
     }
 
