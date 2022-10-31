@@ -21,6 +21,8 @@ const {
 const favoriteService = require('../services/favoriteService');
 const lineService = require('../services/lineService');
 
+const mapUtils = require('../utils/map');
+
 exports.createPost = async (req, res, next) => {
   let t;
   try {
@@ -71,14 +73,21 @@ exports.createPost = async (req, res, next) => {
 
     const post = await getPostbyId(newPost.id);
 
-    const q = {
+    const centerPoint = {
       latitude: post.Location.latitude,
       longitude: post.Location.longitude,
     }
 
-    const places = await favoriteService.getAll(q);
-    places.forEach(place => {
-      lineService.notify(place.User, post);
+    const radius = process.env.MARKER_RADIUS; // km
+
+    const allFavorites = await favoriteService.getAll();
+    allFavorites.forEach(favorite => {
+      if (mapUtils.arePointsNear(favorite, centerPoint, radius)) {
+        console.log('within 5 km.');
+        lineService.notify(favorite.User, post);
+      } else {
+        console.log('outside 5 km.');
+      }
     });
 
     res.status(200).json({ post });
