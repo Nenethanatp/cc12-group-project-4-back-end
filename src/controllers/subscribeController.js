@@ -32,7 +32,8 @@ exports.createCharge = async (req, res, next) => {
     });
 
     const { startDate, endDate } = genStartEndDate(type);
-    if (charge.status === 'success') {
+    console.log(charge.status);
+    if (charge.status === 'successful') {
       const subscribe = await createSubscription(
         {
           userId: req.user.id,
