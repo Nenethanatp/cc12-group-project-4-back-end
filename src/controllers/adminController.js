@@ -16,7 +16,7 @@ exports.deletePost = async (req, res, next) => {
     }
     res.status(200).json({ message: 'Success delete' });
   } catch (err) {
-    console.log(err);
+    next(err);
   }
 };
 
@@ -32,6 +32,6 @@ exports.getReportedPost = async (req, res, next) => {
     );
     res.status(200).json({ reportedPosts });
   } catch (err) {
-    console.log(err);
+    next(err);
   }
 };

@@ -32,7 +32,6 @@ exports.createCharge = async (req, res, next) => {
     });
 
     const { startDate, endDate } = genStartEndDate(type);
-    console.log(charge.status);
     if (charge.status === 'successful') {
       const subscribe = await createSubscription(
         {
@@ -89,6 +88,6 @@ exports.getEndDate = async (req, res, next) => {
       res.status(200).json({ endDate: arrayEndDates[0] });
     }
   } catch (err) {
-    console.log(err);
+    next(err);
   }
 };

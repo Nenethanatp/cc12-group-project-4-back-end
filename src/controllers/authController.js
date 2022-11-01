@@ -38,7 +38,6 @@ exports.register = async (req, res, next) => {
     }
 
     if (error) {
-      console.log(error.message);
       throw new AppError(error, 400);
     }
 
@@ -70,8 +69,6 @@ exports.login = async (req, res, next) => {
       password
     });
     if (error) {
-      console.log(error);
-      console.log('object :>> ', 'firstError');
       throw new AppError('Email or password is invalid', 400);
     }
     const user = await authService.getUserByEmail(email);

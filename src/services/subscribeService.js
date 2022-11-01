@@ -28,7 +28,7 @@ exports.getEndDates = async (userId) => {
 };
 
 exports.hasSubscription = async (userId) => {
-  console.log(moment().toDate());
+  // console.log(moment().toDate());
   return await Subscription.findOne({
     where: {
       userId: Number(userId),

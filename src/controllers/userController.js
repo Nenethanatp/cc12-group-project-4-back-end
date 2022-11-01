@@ -17,7 +17,6 @@ exports.updateMe = async (req, res, next) => {
   const file = req.file;
   try {
     const { oldPassword, newPassword, imageUrl, description } = req.body;
-    console.log(description);
 
     const update = {};
     const oldUser = await getUserByEmail(req.user.email);
@@ -38,7 +37,6 @@ exports.updateMe = async (req, res, next) => {
     }
 
     if (description === '' || description) {
-      console.log(1);
       update.description = description;
     }
 
@@ -101,14 +99,11 @@ exports.lineCallback = async (req, res, next) => {
     const user = req.user;
 
     const access_token = await lineService.login(code);
-    // console.log('555')
-    // console.log(access_token)
 
     await updateUser(req.user.id, { ...user, lineAccessToken: access_token });
 
     res.send('<script>window.close();</script>');
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
@@ -139,8 +134,6 @@ exports.addFavorite = async (req, res, next) => {
       latitude: latitude,
       longitude: longitude,
     };
-
-    console.log(data);
 
     const favorite = await favoriteService.create(data);
 

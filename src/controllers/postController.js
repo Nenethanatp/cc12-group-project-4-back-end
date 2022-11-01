@@ -92,7 +92,6 @@ exports.createPost = async (req, res, next) => {
 
     res.status(200).json({ post });
   } catch (err) {
-    console.log(err);
     await t.rollback();
     next(err);
   }

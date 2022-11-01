@@ -9,7 +9,7 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-  console.log(`User Connected: ${socket.id}`);
+  // console.log(`User Connected: ${socket.id}`);
 
   socket.on('join_room', (data) => {
     socket.join(data);
@@ -21,4 +21,4 @@ io.on('connection', (socket) => {
 });
 
 const port = process.env.PORT || 8000;
-server.listen(port, () => console.log('port running on 8080'));
+server.listen(port, () => console.log('port running on 8080 \n\n\n\n\n'));

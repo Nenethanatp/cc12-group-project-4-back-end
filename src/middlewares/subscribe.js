@@ -16,9 +16,7 @@ module.exports = async (req, res, next) => {
       arrayEndDates.sort().reverse();
       const today = new Date();
       const todayStr = dateToString(today);
-      console.log(todayStr);
-
-      console.log(arrayEndDates[0]);
+      
       if (todayStr >= arrayEndDates[0]) {
         status = 'expired';
       } else {

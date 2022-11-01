@@ -23,8 +23,6 @@ exports.login = async (code) => {
 
   // console.log(res.data)
   return res.data.access_token
-
-  // return '555'
 }
 
 exports.notify = async (user, post) => {
