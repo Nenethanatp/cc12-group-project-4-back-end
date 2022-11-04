@@ -170,14 +170,14 @@ exports.updatePost = async (req, res, next) => {
       for (let el of req.files.postImage) {
         const url = await cloudinary.upload(el.path);
 
-        await PostImage.create(
+         await PostImage.create(
           { imageUrl: url, postId: post.id },
           { transaction: t }
         );
         fs.unlinkSync(el.path);
       }
     }
-
+ 
     await t.commit();
 
     res.status(200).json({ post });
