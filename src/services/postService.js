@@ -7,6 +7,7 @@ const {
   User,
   Report,
   Comment,
+  Follow,
 } = require("../models");
 
 exports.getAllPost = async (queryString) => {
@@ -85,4 +86,40 @@ exports.getAllReported = async () => {
     ],
   });
   return reportedPosts;
+};
+
+exports.getAllFollowingIdByUserId = async (userId) => {
+  const followings = await Follow.findAll({ where: { followerId: userId } });
+  return followings.map((follow) => follow.followingId);
+};
+
+exports.getAllPostsByFollowingIds = async (followerIds) => {
+  const posts = await Post.findAll({
+    where: { userId: followerIds },
+    include: [
+      { model: Type, attributes: { exclude: ["createdAt", "updatedAt"] } },
+      { model: Location, attributes: { exclude: ["createdAt", "updatedAt"] } },
+      { model: PostImage, attributes: { exclude: ["createdAt", "updatedAt"] } },
+      { model: Like, attributes: { exclude: ["createdAt", "updatedAt"] } },
+      {
+        model: User,
+        attributes: {
+          exclude: ["createdAt", "updatedAt", "password", "googleId"],
+        },
+      },
+      { model: Report, attributes: { exclude: ["createdAt", "updatedAt"] } },
+      {
+        model: Comment,
+        include: [
+          {
+            model: User,
+            attributes: {
+              exclude: ["createdAt", "updatedAt", "password", "googleId"],
+            },
+          },
+        ],
+      },
+    ],
+  });
+  return posts;
 };

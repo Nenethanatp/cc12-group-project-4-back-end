@@ -36,6 +36,7 @@ router.delete(
 router.post('/:id/reports', authenticate, reportController.addReport);
 
 router.get('/', authenticate, postController.getAll);
+router.get('/follows', authenticate, postController.getPostsByFollowing);
 router.get('/:id', authenticate, postController.getById);
 
 router.put(

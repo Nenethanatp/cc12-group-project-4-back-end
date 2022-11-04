@@ -1,7 +1,7 @@
-const fs = require('fs');
+const fs = require("fs");
 
-const AppError = require('../utils/appError');
-const cloudinary = require('../utils/cloudinary');
+const AppError = require("../utils/appError");
+const cloudinary = require("../utils/cloudinary");
 const {
   Post,
   User,
@@ -9,19 +9,21 @@ const {
   Location,
   Type,
   sequelize,
-} = require('../models');
+} = require("../models");
 const {
   getAllPost,
   getPostbyId,
   deletePostById,
   deletePostImageById,
   getPostByUserId,
-} = require('../services/postService');
+  getAllFollowingIdByUserId,
+  getAllPostsByFollowingIds,
+} = require("../services/postService");
 
-const favoriteService = require('../services/favoriteService');
-const lineService = require('../services/lineService');
+const favoriteService = require("../services/favoriteService");
+const lineService = require("../services/lineService");
 
-const mapUtils = require('../utils/map');
+const mapUtils = require("../utils/map");
 
 exports.createPost = async (req, res, next) => {
   let t;
@@ -30,13 +32,13 @@ exports.createPost = async (req, res, next) => {
     const { content, typeId, latitude, longitude } = req.body;
     const data = { userId: req.user.id };
     if (!content || !content.trim()) {
-      throw new AppError('content is required', 400);
+      throw new AppError("content is required", 400);
     }
     if (!typeId) {
-      throw new AppError('type is required', 400);
+      throw new AppError("type is required", 400);
     }
     if (!latitude || !longitude) {
-      throw new AppError('location is required', 400);
+      throw new AppError("location is required", 400);
     }
 
     const isThereLocation = await Location.findOne({
@@ -76,17 +78,17 @@ exports.createPost = async (req, res, next) => {
     const centerPoint = {
       latitude: post.Location.latitude,
       longitude: post.Location.longitude,
-    }
+    };
 
     const radius = process.env.MARKER_RADIUS; // km
 
     const allFavorites = await favoriteService.getAll();
-    allFavorites.forEach(favorite => {
+    allFavorites.forEach((favorite) => {
       if (mapUtils.arePointsNear(favorite, centerPoint, radius)) {
-        console.log('within 5 km.');
+        console.log("within 5 km.");
         lineService.notify(favorite.User, post);
       } else {
-        console.log('outside 5 km.');
+        console.log("outside 5 km.");
       }
     });
 
@@ -103,7 +105,7 @@ exports.getAll = async (req, res, next) => {
 
     const posts = await getAllPost(queryString);
     if (!posts) {
-      throw new AppError('Not found any post', 400);
+      throw new AppError("Not found any post", 400);
     }
 
     posts.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
@@ -118,7 +120,7 @@ exports.getById = async (req, res, next) => {
   try {
     const post = await getPostbyId(Number(id));
     if (!post) {
-      throw new AppError('Not found this post', 400);
+      throw new AppError("Not found this post", 400);
     }
     res.status(200).json({ post });
   } catch (err) {
@@ -134,18 +136,18 @@ exports.updatePost = async (req, res, next) => {
     const { content, typeId, latitude, longitude } = req.body;
 
     if (!content || !content.trim()) {
-      throw new AppError('content is required', 400);
+      throw new AppError("content is required", 400);
     }
     if (!typeId) {
-      throw new AppError('type is required', 400);
+      throw new AppError("type is required", 400);
     }
     if (!latitude || !longitude) {
-      throw new AppError('location is required', 400);
+      throw new AppError("location is required", 400);
     }
 
     const post = await getPostbyId(Number(id));
     if (!post) {
-      throw new AppError('Post not found.', 404);
+      throw new AppError("Post not found.", 404);
     }
 
     post.content = content;
@@ -170,14 +172,14 @@ exports.updatePost = async (req, res, next) => {
       for (let el of req.files.postImage) {
         const url = await cloudinary.upload(el.path);
 
-         await PostImage.create(
+        await PostImage.create(
           { imageUrl: url, postId: post.id },
           { transaction: t }
         );
         fs.unlinkSync(el.path);
       }
     }
- 
+
     await t.commit();
 
     res.status(200).json({ post });
@@ -194,7 +196,7 @@ exports.deleteById = async (req, res, next) => {
     if (result !== 1) {
       throw new AppError("Don't have post to delete");
     }
-    res.status(200).json({ message: 'Delete success' });
+    res.status(200).json({ message: "Delete success" });
   } catch (err) {
     next(err);
   }
@@ -207,7 +209,18 @@ exports.deletePostImageById = async (req, res, next) => {
     if (result !== 1) {
       throw new AppError("Don't have post image to delete");
     }
-    res.status(200).json({ message: 'Delete success' });
+    res.status(200).json({ message: "Delete success" });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getPostsByFollowing = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const followingIds = await getAllFollowingIdByUserId(user.id);
+    const posts = await getAllPostsByFollowingIds(followingIds);
+    res.status(200).json({ posts });
   } catch (err) {
     next(err);
   }
